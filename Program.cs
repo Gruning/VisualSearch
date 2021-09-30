@@ -1,4 +1,6 @@
 ﻿using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
+using Newtonsoft.Json;
+using System.Text;
 using VisualSearchEjemplo;
 
 FileStream stream = new FileStream("../../../imagen.jpg", FileMode.Open);
@@ -23,9 +25,31 @@ clienteCV.Endpoint = AppSettings.EndpointCV;
 
 var resultadosCV = await clienteCV.DescribeImageInStreamAsync(stream);
 
+string route = "/translate?api-version=3.0&from=en&to=es";
+
 if (resultadosCV.Captions.Count > 0) {
     foreach (var cap in resultadosCV.Captions) {
-        Console.WriteLine(cap.Text);
+        //traduccion
+        //endpoint https://api.cognitive.microsofttranslator.com/
+
+        object[] body = new object[] { new { Text = cap.Text } };
+        var requuestBody = JsonConvert.SerializeObject(body);
+
+        using (var client = new HttpClient())
+        using (var request = new HttpRequestMessage()) {
+            request.Method = HttpMethod.Post;
+            request.RequestUri = new Uri("https://api.cognitive.microsofttranslator.com/" + route);
+            request.Content = new StringContent(requuestBody, Encoding.UTF8, "application/json");
+            request.Headers.Add("Ocp-Apim-Subscription-Key", AppSettings.TranslateKey);
+            request.Headers.Add("Ocp-Apim-Subscription-Region", "eastus");
+
+            HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
+
+            string result = await response.Content.ReadAsStringAsync();
+
+            Console.WriteLine(result);
+        }
+
     }
 }
 
