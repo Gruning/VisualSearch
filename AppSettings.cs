@@ -12,5 +12,8 @@
         public static string ApiKeyCV = "6af1c2ecbaae455694fed243cd6e1385";
 
         public static string EndpointCV = "https://c-vision-2021.cognitiveservices.azure.com/";
+
+        public static string TranslateKey = "0b0427f95f224ff88b9ca0a5402038e4";
+
     }
 }
