@@ -1,21 +1,10 @@
 ﻿using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Newtonsoft.Json;
 using System.Text;
-using VisualSearchEjemplo;
 
 FileStream stream = new FileStream("../../../imagen.jpg", FileMode.Open);
 
-//var cliente = new VisualSearchClient(
-//    new Microsoft.Bing.VisualSearch.ApiKeyServiceClientCredentials(AppSettings.ApiKeySearch)
-//    );
-//Console.WriteLine("inicia llamada al visual search");
-//var resultados = await cliente.Images.VisualSearchMethodAsync(image: stream);
-//Console.WriteLine("llamada terminada Visual Seach");
-//if (resultados.Tags.Count > 0) {
-//    foreach (var tag in resultados.Tags) {
-//        Console.WriteLine(tag.Actions[0].DisplayName);
-//    }
-//}
+
 
 Console.WriteLine("inicia llamada al Computer ");
 var clienteCV = new ComputerVisionClient(
@@ -53,4 +42,22 @@ if (resultadosCV.Captions.Count > 0) {
     }
 }
 
-Console.WriteLine("fin llamada al Computer ");
+Console.WriteLine("fin llamada al Computer Vision ");
+
+public static class AppSettings
+{
+    //public static string ApiKey = "5449e07d53bc4f2e85a585d4bf72c8c2";
+
+    public static string ApiKeySearch = "0b0d36e8da3a440db1fdd65c04f6dac7";
+    // cv  6af1c2ecbaae455694fed243cd6e1385
+
+    //cv teacher 2a68dc731e24451c9d1e1130d3db6536
+
+    public static string ApiKeyCV = "6af1c2ecbaae455694fed243cd6e1385";
+
+    public static string EndpointCV = "https://c-vision-2021.cognitiveservices.azure.com/";
+
+    public static string TranslateKey = "0b0427f95f224ff88b9ca0a5402038e4";
+
+}
+}
